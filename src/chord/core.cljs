@@ -30,7 +30,9 @@
   (with-context gl
     (run-purefrag-shader! keyboard-frag-glsl
                           resolution
-                          {"size" resolution}))
+                          {"size" resolution
+                           "white-keys-down?" (vec (repeat 7 false))
+                           "black-keys-down?" (vec (repeat 7 false))}))
   state)
 
 (defn update-page! [state]
