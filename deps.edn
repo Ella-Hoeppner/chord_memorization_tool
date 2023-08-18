@@ -1,0 +1,5 @@
+{:deps
+ {thheller/shadow-cljs
+  {:mvn/version "2.20.5"}
+  io.github.Ella-Hoeppner/hollow
+  {:git/sha "ed0729c17f7599c0052443f7b8d69c249b4418d1"}}}

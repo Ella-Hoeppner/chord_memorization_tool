@@ -1,0 +1,9 @@
+{
+  "name": "vedn",
+  "version": "0.0.0",
+  "description": "clojure/script visualizer",
+  "author": "Ella Hoeppner",
+  "dependencies": {
+    "tiny-sdf": "^1.0.2"
+  }
+}
