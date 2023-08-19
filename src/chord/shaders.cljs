@@ -105,8 +105,8 @@
                   (if (|| (>= white-key-dist 0)
                           (< black-key-dist ~c/black-key-outline))
                     (if chord-complete?
-                      (vec3 0.5 1 0.5)
-                      (vec3 0.5))
+                      (vec3 0.65 1 0.65)
+                      (vec3 0.65))
                     (if [key-down? adjusted-white-key-index]
                       (key-color adjusted-white-key-index)
                       (vec3 1))))
