@@ -12,6 +12,7 @@
                      merge-hollow-state!
                      update-hollow-state!]
              :refer-macros [with-context]]
+            [hollow.input.midi :refer [down-notes]]
             [chord.shaders :refer [keyboard-frag-glsl]]
             [chord.config :as c]))
 
@@ -28,11 +29,16 @@
 (defn render! [{:keys [gl resolution]
                 :as state}]
   (with-context gl
-    (run-purefrag-shader! keyboard-frag-glsl
-                          resolution
-                          {"size" resolution
-                           "white-keys-down?" (vec (repeat 7 false))
-                           "black-keys-down?" (vec (repeat 7 false))}))
+    (let [notes (reduce #(assoc %1 (mod %2 12) true)
+                        (vec (repeat 12 false))
+                        (down-notes))]
+      (run-purefrag-shader! keyboard-frag-glsl
+                            resolution
+                            {"size" resolution
+                             "white-keys-down?" (mapv notes
+                                                      [0 2 4 5 7 9 11])
+                             "black-keys-down?" (mapv notes
+                                                      [1 3 0 6 8 10 0])})))
   state)
 
 (defn update-page! [state]
