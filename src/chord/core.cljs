@@ -29,16 +29,13 @@
 (defn render! [{:keys [gl resolution]
                 :as state}]
   (with-context gl
-    (let [notes (reduce #(assoc %1 (mod %2 12) true)
-                        (vec (repeat 12 false))
+    (let [notes (reduce #(assoc %1 %2 true)
+                        (vec (repeat 128 false))
                         (down-notes))]
       (run-purefrag-shader! keyboard-frag-glsl
                             resolution
                             {"size" resolution
-                             "white-keys-down?" (mapv notes
-                                                      [0 2 4 5 7 9 11])
-                             "black-keys-down?" (mapv notes
-                                                      [1 3 0 6 8 10 0])})))
+                             "key-down?" notes})))
   state)
 
 (defn update-page! [state]

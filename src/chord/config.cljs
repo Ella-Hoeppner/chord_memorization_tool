@@ -14,4 +14,6 @@
 (def key-spacing 0.005)
 (def black-key-outline 0.0075)
 
+(def keyboard-x-offset 4.3)
+
 (def background-color [0 0 0])
