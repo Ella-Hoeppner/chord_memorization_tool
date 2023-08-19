@@ -26,7 +26,10 @@
         offset-notes (map #(- % offset) notes)
         proper-notes (filter (comp #{0 4 7} #(mod % 12)) offset-notes)]
     (if (apply = (map #(quot % 12) proper-notes))
-      (set (map (partial + offset) proper-notes))
+      (let [valid-notes (set (map (partial + offset) proper-notes))]
+        (or (and (= notes valid-notes)
+                 (= (count valid-notes) 3)) 
+            valid-notes))
       #{})))
 
 (defn generic-major-chord-validator [notes]
@@ -36,7 +39,7 @@
     3 (if (= '(-4 -3)
              (map (partial apply -)
                   (partition 2 1 (sort notes))))
-        (set notes)
+        true
         #{})
     #{}))
 
@@ -45,7 +48,10 @@
         offset-notes (map #(- % offset) notes)
         proper-notes (filter (comp #{0 3 7} #(mod % 12)) offset-notes)]
     (if (apply = (map #(quot % 12) proper-notes))
-      (set (map (partial + offset) proper-notes))
+      (let [valid-notes (set (map (partial + offset) proper-notes))]
+        (or (and (= notes valid-notes)
+                 (= (count valid-notes) 3))
+            valid-notes))
       #{})))
 
 (defn generic-minor-chord-validator [notes]
@@ -55,6 +61,6 @@
     3 (if (= '(-3 -4)
              (map (partial apply -)
                   (partition 2 1 (sort notes))))
-        (set notes)
+        true
         #{})
     #{}))

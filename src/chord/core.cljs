@@ -38,9 +38,14 @@
                               (vec (repeat 128 false))
                               active-keys))
            notes (down-notes)]
-       {"size" resolution
-        "key-correct?" (note-vec (current-validator notes))
-        "key-down?" (note-vec notes)})))
+       (let [validation (current-validator notes)
+             chord-complete? (true? validation)]
+         {"size" resolution
+          "chord-complete?" chord-complete?
+          "key-correct?" (note-vec (if chord-complete?
+                                     notes
+                                     validation))
+          "key-down?" (note-vec notes)}))))
   state)
 
 (defn update-page! [state]
@@ -52,9 +57,9 @@
   (with-context gl
     (set-page-background-color (map (partial * 255) c/background-color))
     {:gl gl
-     :current-validator 
-     keys/generic-minor-chord-validator
-     #_(partial keys/minor-chord-validator "A#")}))
+     :current-validator
+     keys/generic-major-chord-validator
+     #_(partial keys/minor-chord-validator "C")}))
 
 (defn start-page! []
   (start-hollow! init-page! update-page! {:stencil? true}))

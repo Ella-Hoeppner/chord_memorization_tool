@@ -16,6 +16,7 @@
    (kudzu-wrapper
     '{:outputs {frag-color vec4}
       :uniforms {size vec2
+                 chord-complete? bool
                  key-correct? [bool "128"]
                  key-down? [bool "128"]}
       :functions
@@ -103,7 +104,9 @@
                     (vec3 0))
                   (if (|| (>= white-key-dist 0)
                           (< black-key-dist ~c/black-key-outline))
-                    (vec3 0.5)
+                    (if chord-complete?
+                      (vec3 0.5 1 0.5)
+                      (vec3 0.5))
                     (if [key-down? adjusted-white-key-index]
                       (key-color adjusted-white-key-index)
                       (vec3 1))))
