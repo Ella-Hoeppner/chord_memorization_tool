@@ -16,6 +16,7 @@
    (kudzu-wrapper
     '{:outputs {frag-color vec4}
       :uniforms {size vec2
+                 key-correct? [bool "128"]
                  key-down? [bool "128"]}
       :functions
       {rouned-box-dist
@@ -27,7 +28,11 @@
         (= roundings.x (if (> pos.y 0) roundings.x roundings.y))
         (=vec2 q (- (+ (abs pos) roundings.x) dimensions))
         (+ (min (max q.x q.y) 0)
-           (- (length (max q 0)) roundings.x)))}
+           (- (length (max q 0)) roundings.x)))
+       key-color
+       (vec3
+        [key-index int]
+        (if [key-correct? key-index] (vec3 0 1 0) (vec3 1 0 0)))}
       :main
       ((=vec2 pos (uni->bi (/ gl_FragCoord.xy size)))
        (*= pos.x (/ size.x size.y))
@@ -94,12 +99,12 @@
        (= frag-color
           (vec4 (if (< black-key-dist 0)
                   (if [key-down? adjusted-black-key-index]
-                    (vec3 1 0 0)
+                    (key-color adjusted-black-key-index)
                     (vec3 0))
                   (if (|| (>= white-key-dist 0)
                           (< black-key-dist ~c/black-key-outline))
                     (vec3 0.5)
                     (if [key-down? adjusted-white-key-index]
-                      (vec3 1 0 0)
+                      (key-color adjusted-white-key-index)
                       (vec3 1))))
                 1)))})))

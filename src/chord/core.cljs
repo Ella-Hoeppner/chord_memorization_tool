@@ -14,6 +14,7 @@
              :refer-macros [with-context]]
             [hollow.input.midi :refer [down-notes]]
             [chord.shaders :refer [keyboard-frag-glsl]]
+            [chord.keys :as keys]
             [chord.config :as c]))
 
 (defn update-resolution! [{:keys [gl resolution]
@@ -26,16 +27,20 @@
         (assoc state
                :resolution new-resolution)))))
 
-(defn render! [{:keys [gl resolution]
+(defn render! [{:keys [gl resolution current-validator]
                 :as state}]
   (with-context gl
-    (let [notes (reduce #(assoc %1 %2 true)
-                        (vec (repeat 128 false))
-                        (down-notes))]
-      (run-purefrag-shader! keyboard-frag-glsl
-                            resolution
-                            {"size" resolution
-                             "key-down?" notes})))
+    (run-purefrag-shader!
+     keyboard-frag-glsl
+     resolution
+     (let [note-vec (fn [active-keys]
+                      (reduce #(assoc %1 %2 true)
+                              (vec (repeat 128 false))
+                              active-keys))
+           notes (down-notes)]
+       {"size" resolution
+        "key-correct?" (note-vec (current-validator notes))
+        "key-down?" (note-vec notes)})))
   state)
 
 (defn update-page! [state]
@@ -46,7 +51,8 @@
 (defn init-page! [gl]
   (with-context gl
     (set-page-background-color (map (partial * 255) c/background-color))
-    {:gl gl}))
+    {:gl gl
+     :current-validator (partial keys/major-chord-validator "B")}))
 
 (defn start-page! []
   (start-hollow! init-page! update-page! {:stencil? true}))
