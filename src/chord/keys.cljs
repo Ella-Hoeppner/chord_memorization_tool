@@ -28,3 +28,14 @@
     (if (apply = (map #(quot % 12) proper-notes))
       (set (map (partial + offset) proper-notes))
       #{})))
+
+(defn generic-major-chord-validator [notes]
+  (case (count notes)
+    1 (set notes)
+    2 (if (#{-3 -4 -7} (apply - (sort notes))) (set notes) #{})
+    3 (if (= '(-4 -3)
+             (map (partial apply -)
+                  (partition 2 1 (sort notes))))
+        (set notes)
+        #{})
+    #{}))

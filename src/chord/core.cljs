@@ -52,7 +52,9 @@
   (with-context gl
     (set-page-background-color (map (partial * 255) c/background-color))
     {:gl gl
-     :current-validator (partial keys/major-chord-validator "A#")}))
+     :current-validator 
+     keys/generic-major-chord-validator
+     #_(partial keys/major-chord-validator "A#")}))
 
 (defn start-page! []
   (start-hollow! init-page! update-page! {:stencil? true}))
