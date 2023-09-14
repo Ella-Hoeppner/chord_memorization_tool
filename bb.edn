@@ -1,3 +1,4 @@
 {:tasks
- {cljs-release (shell "shadow-cljs release browser")
+ {webpack (shell "npx webpack --config webpack.config.js")
+  cljs-release (shell "shadow-cljs release browser")
   release {:depends [cljs-release]}}}

@@ -3,6 +3,8 @@
  :dev-http {8702 "out/public"}
  :builds
  {:browser {:target :browser
+            :js-options {:js-provider :external
+                         :external-index "out/external/index.js"}
             :output-dir "out/public/js"
             :asset-path "/js"
             :compiler-options {:warnings {:infer false}}

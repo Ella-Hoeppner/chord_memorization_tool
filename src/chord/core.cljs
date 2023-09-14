@@ -15,7 +15,8 @@
             [hollow.input.midi :refer [down-notes]]
             [chord.shaders :refer [keyboard-frag-glsl]]
             [chord.keys :as keys]
-            [chord.config :as c]))
+            [chord.config :as c]
+            ["@grame/faustwasm" :as faustwasm]))
 
 (defn update-resolution! [{:keys [gl resolution]
                            :as state}]

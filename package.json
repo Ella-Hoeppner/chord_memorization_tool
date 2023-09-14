@@ -1,9 +1,19 @@
 {
-  "name": "vedn",
-  "version": "0.0.0",
-  "description": "clojure/script visualizer",
-  "author": "Ella Hoeppner",
+  "name": "chord_trainer",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "tiny-sdf": "^1.0.2"
+    "@grame/faustwasm": "^0.0.38",
+    "url": "^0.11.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
